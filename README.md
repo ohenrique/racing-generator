@@ -43,12 +43,15 @@ You need first to download the Expo Go App, for [Android](https://play.google.co
 ### Android
 
 After the installation, you can read this QR Code for Android:
-  <img src="/eas-android.svg" alt="racing-generator-screenshot" height="250"/>
+
+<img src="/eas-android.svg" alt="racing-generator-screenshot" height="250"/>
+
 You can also access this [deep link](exp://u.expo.dev/update/13bd2292-1fec-479d-9550-b210296b4fef) using your Android phone.
 
 ### iOS
 
 For iOS use this QR Code:
+
 <img src="/eas-ios.svg" alt="racing-generator-screenshot" height="250"/>
 
 Or the [deep link](exp://u.expo.dev/update/fdbb6ac8-b519-493b-81d2-ebaafcea2129).
