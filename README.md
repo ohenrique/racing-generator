@@ -15,8 +15,6 @@ I drew inspiration from this [screen](https://dribbble.com/shots/6923463-Sports-
 - [Installation](#installation)
 - [Run with the Expo Go App](#installation)
 - [License](#license)
-- [Links](#links)
-
 
 ## Installation
 
