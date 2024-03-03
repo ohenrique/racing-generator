@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { Racer } from "../../types/racer";
+import { racersListItemStyle } from "./styles";
 
 type RacersItemProps = {
     racer: Racer;
@@ -9,19 +10,18 @@ type RacersItemProps = {
 export const RacersListItem = ({
     racer: { name, color, weight, length, running, winLikelihood }
 }: RacersItemProps) => (
-    <View style={style.container}>
-        <Text>{name}</Text>
-        <Text>
-            <Text>{color}</Text>
-            <Text>{weight}</Text>
-            <Text>{length}</Text>
-            {running ? <ActivityIndicator /> : <Text>{winLikelihood ? ((winLikelihood || 0) * 100).toFixed(2) + "%" : ""}</Text>}
-        </Text>
+    <View style={racersListItemStyle.container}>
+        <View style={racersListItemStyle.itemContainer}>
+            <View>
+                <Text style={[racersListItemStyle.title, { color: color.toLowerCase() }]}>{name}</Text>
+                <View style={racersListItemStyle.properties}>
+                    <Text>Weight: {weight}</Text>
+                    <Text>Length: {length}</Text>
+                </View>
+            </View>
+            <View>
+                {running ? <ActivityIndicator color={"#eb3636"} /> : <Text>{winLikelihood ? ((winLikelihood || 0) * 100).toFixed(2) + "%" : ""}</Text>}
+            </View>
+        </View>
     </View>
 );
-
-const style = StyleSheet.create({
-    container: {
-        padding: 4,
-    },
-});

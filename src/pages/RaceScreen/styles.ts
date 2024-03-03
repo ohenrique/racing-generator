@@ -20,3 +20,19 @@ export const style = StyleSheet.create({
         justifyContent: "space-between"
     }
 });
+
+export const racersListItemStyle = StyleSheet.create({
+    container: {
+        padding: 4,
+        gap: 2,
+    },
+    itemContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+    title: { fontWeight: "bold" },
+    properties: {
+        flexDirection: "row",
+        gap: 10
+    }
+});

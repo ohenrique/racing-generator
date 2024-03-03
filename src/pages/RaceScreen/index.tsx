@@ -9,10 +9,13 @@ import { useLazyQuery } from "@apollo/client";
 import { Racer } from "../../types/racer";
 import { generateRacerWinLikelihoodCalculator } from "../../utils";
 
+type Status = "Not yet run" | "In progress" | "All Concluded";
+
 export const RaceScreen = () => {
 
     const [racers, setRacers] = useState<Racer[]>([]);
-    const [status, setStatus] = useState("Not yet run");
+    const [status, setStatus] = useState<Status>("Not yet run");
+    const [isFetchable, setFetchable] = useState(true);
 
     const [queryRacers, { data, loading }] = useLazyQuery<RacersQueryResponse>(
         QUERY_RACERS,
@@ -27,11 +30,25 @@ export const RaceScreen = () => {
     }, [data]);
 
     useEffect(() => {
-        if (!loading) return;
-        setStatus("In progress");
-    }, [loading]);
+        const globalState = getGlobalState();
+
+        if (globalState === "All Concluded")
+            setFetchable(true);
+
+        setStatus(globalState)
+    }, [data, loading, racers]);
+
+    const getGlobalState = (): Status => {
+        if (!data?.racers)
+            return "Not yet run"
+        if (racers.length > 0 && racers.every(race => race.winLikelihood))
+            return "All Concluded";
+        else
+            return "In progress"
+    }
 
     const calculateRacerWinLikelihood = () => {
+        setFetchable(false);
         racers.forEach(async (racer: Racer) => {
             const racerWinCalculator = generateRacerWinLikelihoodCalculator();
 
@@ -46,7 +63,7 @@ export const RaceScreen = () => {
         });
     };
 
-    const initWinCalculation = () => setRacers(racers.map(racer => ({ ...racer, running: true })));
+    const initWinCalculation = () => setRacers(racers.map(racer => ({ ...racer, running: true, winLikelihood: undefined })));
 
     const startRacing = () => {
         initWinCalculation();
@@ -65,9 +82,14 @@ export const RaceScreen = () => {
                     (<RacersList racers={racers} />)
                 }
             </View>
-            {racers.length > 0 ?
-                (<Button title="Lets start!" onPress={() => startRacing()} />) :
-                (<Button title="Generate the racers" onPress={() => queryRacers()} />)}
+            <View>
+                {racers.length > 0 ?
+                    (<>
+                        <Button title="Start the Race!" onPress={() => startRacing()} disabled={!isFetchable} />
+                        <Button title="Refetch the racers" type="transparent" onPress={() => queryRacers()} disabled={!isFetchable} />
+                    </>) :
+                    (<Button title="Generate the racers" onPress={() => queryRacers()} disabled={!isFetchable} />)}
+            </View>
         </View>
     )
 };
