@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { Racer } from "../../types/racer";
 
 type RacersItemProps = {
@@ -7,13 +7,16 @@ type RacersItemProps = {
 };
 
 export const RacersListItem = ({
-    racer: { name, color, weight, length }
+    racer: { name, color, weight, length, running, winLikelihood }
 }: RacersItemProps) => (
     <View style={style.container}>
         <Text>{name}</Text>
-        <Text>{color}</Text>
-        <Text>{weight}</Text>
-        <Text>{length}</Text>
+        <Text>
+            <Text>{color}</Text>
+            <Text>{weight}</Text>
+            <Text>{length}</Text>
+            {running ? <ActivityIndicator /> : <Text>{winLikelihood ? ((winLikelihood || 0) * 100).toFixed(2) + "%" : ""}</Text>}
+        </Text>
     </View>
 );
 

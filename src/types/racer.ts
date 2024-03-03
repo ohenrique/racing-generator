@@ -3,4 +3,6 @@ export type Racer = {
     color: string;
     weight: number;
     length: number;
+    running: boolean;
+    winLikelihood?: number
 };
